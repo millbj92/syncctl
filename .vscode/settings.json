@@ -1,0 +1,28 @@
+{
+  "makefile.extensionOutputFolder": "./.vscode",
+  "vsintellicode.features.apiExamples": "enabled",
+  "vsintellicode.features.apiExamplests": "enabled",
+  "vsintellicode.features.python.deepLearning": "enabled",
+  "gitlens.defaultGravatarsStyle": "identicon",
+  "gitlens.fileAnnotations.command": "heatmap",
+  "gitlens.codeLens.scopes": ["document", "containers", "blocks"],
+  "gitlens.codeLens.includeSingleLineSymbols": true,
+  "gitlens.statusBar.alignment": "right",
+  "gitlens.views.repositories.includeWorkingTree": true,
+  "gitlens.views.repositories.files.layout": "tree",
+  "gitlens.views.contributors.showStatistics": true,
+  "gitlens.gitCommands.search.matchAll": false,
+  "gitlens.liveshare.allowGuestAccess": false,
+  "gitlens.defaultDateStyle": "relative",
+  "gitlens.mode.statusBar.enabled": true,
+  "gitlens.mode.statusBar.alignment": "left",
+  "go.enableCodeLens": {
+    "references": true
+  },
+  "go.formatTool": "gofumpt",
+  "go.gopath": "/usr/local/go",
+  "go.gotoSymbol.includeImports": false,
+  "go.trace.server": "off",
+  "go.useCodeSnippetsOnFunctionSuggest": false,
+  "go-template.languages": ["toml", "yaml", "helmfile", "gotpl"]
+}

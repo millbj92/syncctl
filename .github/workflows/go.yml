@@ -1,0 +1,44 @@
+name: Go
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.18
+
+      - name: Install dependencies
+        run: |
+          go get -v -t ./...
+          go test -v ./...
+
+      - name: Build
+        run: |
+          go build -v ./...
+
+      - name: Test
+        run: |
+          go test -v ./...
+
+      - name: Lint
+        run: |
+          golint ./...
+
+      - name: Format
+        run: |
+          golangci-lint run ./...
+
+      - name: Coverage
+        run: |
+          go test -coverprofile=coverage.txt ./...
+          go tool cover -html=coverage.txt -o coverage.html

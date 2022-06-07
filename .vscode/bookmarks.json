@@ -1,0 +1,64 @@
+{
+	"files": [
+		{
+			"path": "cli/main.go",
+			"bookmarks": [
+				{
+					"line": 1,
+					"column": 0,
+					"label": "Cli/main.go"
+				}
+			]
+		},
+		{
+			"path": "backend/main.go",
+			"bookmarks": [
+				{
+					"line": 0,
+					"column": 0,
+					"label": "Backend/main.go"
+				}
+			]
+		},
+		{
+			"path": "backend/platform/database/open_db_connection.go",
+			"bookmarks": [
+				{
+					"line": 3,
+					"column": 5,
+					"label": "Databases/open_db"
+				}
+			]
+		},
+		{
+			"path": "backend/platform/database/postgres.go",
+			"bookmarks": [
+				{
+					"line": 0,
+					"column": 1,
+					"label": "Databases/postgres"
+				}
+			]
+		},
+		{
+			"path": "backend/platform/cache/redis.go",
+			"bookmarks": [
+				{
+					"line": 0,
+					"column": 0,
+					"label": "Redis"
+				}
+			]
+		},
+		{
+			"path": "backend/platform/database/mysql.go",
+			"bookmarks": [
+				{
+					"line": 0,
+					"column": 0,
+					"label": "Databases/mysql"
+				}
+			]
+		}
+	]
+}
