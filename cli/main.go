@@ -10,6 +10,7 @@ import (
 	"github.com/urfave/cli/v2"
 
 	"github.com/millbj92/synctl/libs/management"
+	"github.com/millbj92/synctl/libs/models/tasks"
 )
 
 func main() {
@@ -62,13 +63,7 @@ func main() {
 			Aliases: []string{"rm"},
 			Usage:  "Delete object(s)",
 			Action:  func(c *cli.Context) error {
-				return management.DeleteFiles(tasks{
-					Path: c.String("path"),
-					Include: c.String("exclude"),
-					Exclude: c.String("exclude"),
-					Recursive: c.Bool("recursive"),
-					Force: c.Bool("force"),
-				})
+				return management.DeleteFiles(tasks)
 			},
 		},
 		{
