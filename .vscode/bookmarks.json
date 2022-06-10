@@ -1,7 +1,7 @@
 {
 	"files": [
 		{
-			"path": "cli/main.go",
+			"path": "cmd/cli/main.go",
 			"bookmarks": [
 				{
 					"line": 1,
@@ -11,7 +11,7 @@
 			]
 		},
 		{
-			"path": "backend/main.go",
+			"path": "cmd/server/main.go",
 			"bookmarks": [
 				{
 					"line": 0,
@@ -21,7 +21,7 @@
 			]
 		},
 		{
-			"path": "backend/platform/database/open_db_connection.go",
+			"path": "internal/database/open_db_connection.go",
 			"bookmarks": [
 				{
 					"line": 3,
@@ -31,7 +31,7 @@
 			]
 		},
 		{
-			"path": "backend/platform/database/postgres.go",
+			"path": "internal/database/postgres.go",
 			"bookmarks": [
 				{
 					"line": 0,
@@ -41,7 +41,7 @@
 			]
 		},
 		{
-			"path": "backend/platform/cache/redis.go",
+			"path": "internal/cache/redis.go",
 			"bookmarks": [
 				{
 					"line": 0,
@@ -51,7 +51,7 @@
 			]
 		},
 		{
-			"path": "backend/platform/database/mysql.go",
+			"path": "internal/database/mysql.go",
 			"bookmarks": [
 				{
 					"line": 0,

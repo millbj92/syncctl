@@ -1,5 +1,5 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
+Makefile:9: *** missing separator.  Stop.
 
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
@@ -8,11 +8,11 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jun 10 08:28:39 2022
+# Make data base, printed on Fri Jun 10 09:19:58 2022
 
 # Variables
 
-# 'override' directive
+# environment
 GNUMAKEFLAGS := 
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
@@ -22,6 +22,8 @@ GNUMAKEFLAGS :=
 WSLENV = VSCODE_WSL_EXT_LOCATION/up
 # default
 .SHELLFLAGS := -c
+# makefile (from 'Makefile', line 1)
+BINARY_NAME = synctl
 # environment
 VSCODE_LOG_NATIVE = false
 # environment
@@ -67,13 +69,13 @@ LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
 XDG_RUNTIME_DIR = /mnt/wslg/runtime-dir
 # environment
-GOPATH = /home/brandon/go
+GOPATH = /usr/local/go
 # environment
 NVM_BIN = /home/brandon/.nvm/versions/node/v16.14.0/bin
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-7765a635-25cc-4d02-a626-34ae9de452be.sock
+VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-84eb91f1-2bb9-4868-a8d1-6a49d8e0c582.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -95,7 +97,7 @@ PULSE_SERVER = /mnt/wslg/PulseServer
 # environment
 MANPATH = /home/brandon/.nvm/versions/node/v16.14.0/share/man:/home/linuxbrew/.linuxbrew/share/man::
 # environment
-GOMODCACHE = /home/brandon/go/pkg/mod
+GOMODCACHE = /usr/local/go/pkg/mod
 # environment
 HOME = /home/brandon
 # environment
@@ -110,8 +112,6 @@ NVM_CD_FLAGS = -q
 ZSH = /home/brandon/.oh-my-zsh
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
-# makefile (from 'Makefile', line 4)
-BACKEND_PATH = $(PWD)/backend
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # environment
@@ -127,7 +127,7 @@ MAKE_VERSION := 4.2.1
 # environment
 USER = brandon
 # makefile
-.DEFAULT_GOAL := test
+.DEFAULT_GOAL := build
 # environment
 NAME = LAPTOP-JTMCQFIO
 # environment
@@ -136,12 +136,8 @@ LESS = -R
 %D = $(patsubst %/,%,$(dir $%))
 # environment
 VSCODE_WSL_EXT_LOCATION = /mnt/c/Users/millb/.vscode/extensions/ms-vscode-remote.remote-wsl-0.66.3
-# makefile (from 'Makefile', line 3)
-FRONTEND_PATH = $(PWD)/frontend
 # default
 MAKE_COMMAND := make
-# environment
-OLDPWD = /mnt/c/Users/millb/AppData/Local/Programs/Microsoft VS Code
 # default
 .VARIABLES := 
 # automatic
@@ -176,6 +172,8 @@ EDITOR = nvim
 PAGER = less
 # environment
 LC_ALL = C
+# makefile (from 'Makefile', line 6)
+GOARCH = amd64 GOOS=windows go build -o ${BINARY_NAME}-windows_amd64 main.go
 # environment
 HOSTTYPE = x86_64
 # automatic
@@ -201,7 +199,7 @@ VSCODE_EXTHOST_WILL_SEND_SOCKET = true
 # environment
 WSL_DISTRO_NAME = Ubuntu20.04LTS
 # variable set hash-table stats:
-# Load=94/1024=9%, Rehash=0, Collisions=12/119=10%
+# Load=93/1024=9%, Rehash=0, Collisions=10/109=9%
 
 # Pattern-specific Variable Values
 
@@ -209,9 +207,9 @@ WSL_DISTRO_NAME = Ubuntu20.04LTS
 
 # Directories
 
-# . (device 2080, inode 1436222): 21 files, no impossibilities.
+# . (device 2080, inode 1436222): 24 files, no impossibilities.
 
-# 21 files, no impossibilities in 1 directories.
+# 24 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -222,39 +220,20 @@ WSL_DISTRO_NAME = Ubuntu20.04LTS
 # Not a target:
 all:
 #  Command line target.
-#  Implicit rule search has been done.
-#  File does not exist.
-#  File has not been updated.
-
-.PHONY: test run build
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
 Makefile:
-#  Implicit rule search has been done.
-#  Last modified 2022-06-06 09:31:35.950080049
-#  File has been updated.
-#  Successfully updated.
-
-test:
-#  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
-#  File does not exist.
+#  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 7):
-	@if [ -d "$(FRONTEND_PATH)" ]; then cd $(FRONTEND_PATH) && npm run test; fi
-	@if [ -d "$(BACKEND_PATH)" ]; then cd $(BACKEND_PATH) && go test ./...; fi
 
-build: test
-#  Phony target (prerequisite of .PHONY).
+build:
 #  Implicit rule search has not been done.
-#  File does not exist.
+#  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 15):
-	@if [ -d "$(FRONTEND_PATH)" ]; then cd $(FRONTEND_PATH) && npm run build; fi
-	@if [ -d "$(BACKEND_PATH)" ]; then cd $(BACKEND_PATH) && $(MAKE) build; fi
 
 # Not a target:
 .DEFAULT:
@@ -262,30 +241,25 @@ build: test
 #  Modification time never checked.
 #  File has not been updated.
 
-run: test
-#  Phony target (prerequisite of .PHONY).
+run:
 #  Implicit rule search has not been done.
-#  File does not exist.
+#  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 11):
-	@if [ -d "$(FRONTEND_PATH)" ]; then cd $(FRONTEND_PATH) && npm run dev; fi
-	@if [ -d "$(BACKEND_PATH)" ]; then cd $(BACKEND_PATH) && $(MAKE) run; fi
 
 # files hash-table stats:
-# Load=8/1024=1%, Rehash=0, Collisions=0/26=0%
+# Load=6/1024=1%, Rehash=0, Collisions=0/7=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
- 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 29 / storage = 239 B / avg = 8 B
-# current buf: size = 8162 B / used = 239 B / count = 29 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 31 / storage = 245 B / avg = 7 B
+# current buf: size = 8162 B / used = 245 B / count = 31 / avg = 7 B
 
-# strcache performance: lookups = 43 / hit rate = 32%
+# strcache performance: lookups = 37 / hit rate = 16%
 # hash-table stats:
-# Load=29/8192=0%, Rehash=0, Collisions=1/43=2%
-# Finished Make data base on Fri Jun 10 08:28:39 2022
+# Load=31/8192=0%, Rehash=0, Collisions=1/37=3%
+# Finished Make data base on Fri Jun 10 09:19:58 2022
 
  

@@ -1,6 +1,6 @@
-make --dry-run --always-make --keep-going --print-directory
+make --dry-run --keep-going --print-directory
 make: Entering directory '/home/brandon/Projects/synctl'
-if [ -d "/home/brandon/Projects/synctl/frontend" ]; then cd /home/brandon/Projects/synctl/frontend && npm run test; fi
-if [ -d "/home/brandon/Projects/synctl/backend" ]; then cd /home/brandon/Projects/synctl/backend && go test ./...; fi
 make: Leaving directory '/home/brandon/Projects/synctl'
  
+Makefile:9: *** missing separator.  Stop.
+
