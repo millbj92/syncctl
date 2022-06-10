@@ -10,12 +10,13 @@ import (
 	"github.com/urfave/cli/v2"
 
 	"github.com/millbj92/synctl/libs/management"
+	tasks "github.com/millbj92/synctl/libs/models/tasks"
 )
 
 func main() {
 	app := cli.NewApp()
 	app.Name = "synctl"
-	app.Usage = "Sanity: restored."
+	app.Usage = "A tool for managing housekeeping tasks"
 	app.Description = "Synctl is a multi-purpose command line interface for housekeeping and syncronization on both local and remote machines."
 	app.Version = "0.0.1"
 	app.Authors = []*cli.Author{
@@ -61,7 +62,15 @@ func main() {
 			},
 			Aliases: []string{"rm"},
 			Usage:  "Delete object(s)",
-			Action: management.DeleteFiles,
+			Action:  func(c *cli.Context) error {
+				return management.DeleteFiles(tasks.TaskArgs{
+					Path: c.String("path"),
+					Include: c.String("exclude"),
+					Exclude: c.String("exclude"),
+					Recursive: c.Bool("recursive"),
+					Force: c.Bool("force"),
+				})
+			},
 		},
 		{
 			Name:   "copy",
