@@ -4,10 +4,10 @@ import (
 	"context"
 	"time"
 
-	"github.com/millbj92/synctl/pkg/models/auth"
-	"github.com/millbj92/synctl/pkg/utils"
 	"github.com/millbj92/synctl/internal/cache"
 	"github.com/millbj92/synctl/internal/database"
+	"github.com/millbj92/synctl/pkg/models/auth"
+	"github.com/millbj92/synctl/pkg/utils"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -46,7 +46,7 @@ func RenewTokens(c *fiber.Ctx) error {
 		)
 	}
 
-	renew := &models.Renew{}
+	renew := &auth.Renew{}
 
 	if err := c.BodyParser(renew); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(

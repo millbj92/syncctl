@@ -1,17 +1,15 @@
 package main
 
 import (
-	//"os"
+	"os"
 
 	_ "fmt"
-	"io/ioutil"
 
 	//"github.com/millbj92/synctl/pkg/configs"
-	//"github.com/millbj92/synctl/pkg/middleware"
-	//"github.com/millbj92/synctl/pkg/routes"
-
-	"github.com/millbj92/synctl/pkg/models/tasks"
-	"github.com/millbj92/synctl/pkg/management"
+	"github.com/gofiber/fiber/v2"
+	"github.com/millbj92/synctl/internal/configs"
+	"github.com/millbj92/synctl/pkg/middleware"
+	"github.com/millbj92/synctl/pkg/routes"
 
 	//"github.com/Masterminds/sprig"
 	//"html/template"
@@ -19,7 +17,6 @@ import (
 	//"github.com/gofiber/fiber/v2"
 	//"github.com/sirupsen/logrus"
 	_ "github.com/joho/godotenv/autoload"
-	"gopkg.in/yaml.v3"
 )
 
 // @title Synctl Server
@@ -36,52 +33,29 @@ import (
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
-func main() {
-	yfile, err := ioutil.ReadFile("./config.yml")
-	if err != nil {
-		panic(err)
+func Start() error {
+	config := configs.ConfigureFiber()
+
+	app := fiber.New(config)
+
+	middleware.LoadMiddleware(app)
+
+	routes.PublicRoutes(app)
+	routes.PrivateRoutes(app)
+	routes.NotFoundRoute(app)
+
+
+	if os.Getenv("APP_ENV") == "development" {
+		err := app.Listen(":8080")
+		if err != nil {
+			return err
+		}
+		} else {
+			err := app.Listen(":" + os.Getenv("PORT"))
+			if err != nil {
+				return err
+			}
 	}
 
-	data := make([]models.Task, 0)
-
-	 err2 := yaml.Unmarshal(yfile, &data)
-	if err2 != nil {
-		panic(err2)
-	}
-
-	for _, task := range data {
-		switch task.Action {
-		case "delete":
-			management.DeleteFiles(task.Args)
-		// case "write":
-		// 	management.WriteFiles(task.Args)
-		// case "copy":
-		// 	management.CopyFiles(task.Args)
-		// case "move":
-		// 	management.MoveFiles(task.Args)
-		// case "rename":
-		// 	management.RenameFiles(task.Args)
-	  }
-
-
-
-
-	// config := configs.ConfigureFiber()
-
-	// app := fiber.New(config)
-
-	// middleware.LoadMiddleware(app)
-
-	// routes.PublicRoutes(app)
-	// routes.PrivateRoutes(app)
-	// routes.NotFoundRoute(app)
-
-
-	// if os.Getenv("APP_ENV") == "development" {
-	// 	app.Listen(":8080")
-	// 	} else {
-	// 		app.Listen(":" + os.Getenv("PORT"))
-	//	}
-	//management.WatchPath("../");
-  }
+	return nil
 }

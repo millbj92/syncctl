@@ -2,6 +2,7 @@ package management
 
 import (
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -93,6 +94,40 @@ func MoveFiles(args tasks.MoveArgs) error {
 	return nil
 }
 
+func ListFiles(args tasks.TaskArgs) error {
+	log.Println("Starting List Task:", args)
+
+	if(args.Recursive) {
+		err := filepath.Walk(args.Source,
+			func(path string, info os.FileInfo, err error) error {
+				if err != nil {
+					return err
+				}
+				log.Println(info)
+				return nil
+			},
+		)
+		if err != nil {
+			return err
+		}
+	} else {
+		files, err := ioutil.ReadDir(args.Source)
+		if err != nil {
+			return err
+		}
+
+		for _, f := range files {
+			log.Println(f)
+		}
+	}
+	return nil
+}
+
+func SyncFiles(args tasks.SyncArgs) error {
+	log.Println("Starting Sync Task:", args)
+	return nil
+}
+
 func RenameFiles(args tasks.RenameArgs) error {
 	log.Println("RenameFiles:", args)
 	matches, err := filepath.Glob(args.Include)
@@ -146,6 +181,15 @@ func copyFile(src, dst string) error {
 
 
 
+func sum(array []string) int64 {
+	var result int64
+	for _, v := range array {
+		fi, _ := os.Stat(v)
+		log.Println(fi)
+		result += fi.Size()
+	}
+	return result
+}
 
 func ContainsRegex (s []string, e string) bool {
 	for _, a := range s {
