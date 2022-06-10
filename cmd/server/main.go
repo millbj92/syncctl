@@ -10,7 +10,7 @@ import (
 	//"github.com/millbj92/synctl/pkg/middleware"
 	//"github.com/millbj92/synctl/pkg/routes"
 
-	"github.com/millbj92/synctl/app/models"
+	"github.com/millbj92/synctl/pkg/models/tasks"
 	"github.com/millbj92/synctl/pkg/management"
 
 	//"github.com/Masterminds/sprig"

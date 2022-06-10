@@ -3,7 +3,7 @@ package queries
 import (
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"github.com/millbj92/synctl/app/models"
+	models "github.com/millbj92/synctl/pkg/models/auth"
 )
 
 // UserQueries struct for queries from User model.

@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/millbj92/synctl/app/controllers"
+	"github.com/millbj92/synctl/pkg/controllers"
 )
 
 func PublicRoutes(a *fiber.App) {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/millbj92/synctl/libs/models/system"
+	"github.com/millbj92/synctl/pkg/models/system"
 	"github.com/shirou/gopsutil/cpu"
 )
 

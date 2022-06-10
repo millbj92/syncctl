@@ -1,6 +1,7 @@
-make --dry-run --keep-going --print-directory
+make --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/home/brandon/Projects/synctl'
+GOARCH=amd64 GOOS=linux go build -o bin/synctl-linux_amd64 ./cmd/server/main.go
+GOARCH=amd64 GOOS=darwin go build -o bin/synctl-darwin_amd64 ./cmd/server/main.go
+GOARCH=amd64 GOOS=windows go build -o bin/synctl-windows_amd64 ./cmd/server/main.go
 make: Leaving directory '/home/brandon/Projects/synctl'
  
-Makefile:9: *** missing separator.  Stop.
-

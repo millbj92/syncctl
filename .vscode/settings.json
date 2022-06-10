@@ -20,11 +20,12 @@
     "references": true
   },
   "go.formatTool": "gofumpt",
-  "go.gopath": "/usr/local/go",
   "go.gotoSymbol.includeImports": false,
   "go.trace.server": "off",
   "go.useCodeSnippetsOnFunctionSuggest": false,
   "go-template.languages": ["toml", "yaml", "helmfile", "gotpl"],
   "go.docsTool": "guru",
-  "go.useLanguageServer": true
+  "go.useLanguageServer": true,
+  "go.inferGopath": false,
+  "go.toolsEnvVars": {}
 }

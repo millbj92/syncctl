@@ -6,7 +6,7 @@ import (
 
 	//"io/fs"
 
-	"github.com/millbj92/synctl/libs/models/memory"
+	"github.com/millbj92/synctl/pkg/models/memory"
 	"github.com/shirou/gopsutil/v3/mem"
 	//github.com/variantdev/chartify
 	//https://github.com/variantdev/vals

@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/jmoiron/sqlx"
-	"github.com/millbj92/synctl/app/queries"
+	"github.com/millbj92/synctl/internal/queries"
 )
 
 // Queries struct for collect all app queries.

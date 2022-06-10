@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/millbj92/synctl/app/controllers"
+	"github.com/millbj92/synctl/pkg/controllers"
 	"github.com/millbj92/synctl/pkg/middleware"
 	"github.com/gofiber/fiber/v2"
 )

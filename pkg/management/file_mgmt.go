@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"regexp"
 
-	"github.com/millbj92/synctl/libs/models/tasks"
+	"github.com/millbj92/synctl/pkg/models/tasks"
 )
 
 func DeleteFiles(args tasks.TaskArgs) error {

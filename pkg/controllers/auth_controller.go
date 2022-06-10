@@ -4,10 +4,10 @@ import (
 	"context"
 	"time"
 
-	"github.com/millbj92/synctl/app/models"
+	models "github.com/millbj92/synctl/pkg/models/auth"
 	"github.com/millbj92/synctl/pkg/utils"
-	"github.com/millbj92/synctl/platform/cache"
-	"github.com/millbj92/synctl/platform/database"
+	"github.com/millbj92/synctl/internal/cache"
+	"github.com/millbj92/synctl/internal/database"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
