@@ -1,9 +1,10 @@
-package models
+package connections
 
 import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/millbj92/synctl/libs/models/auth"
 	"github.com/millbj92/synctl/libs/models/disk"
 )
 
@@ -49,5 +50,5 @@ type ConnectionSettings struct {
 	Ignore_Process_Uptime bool `json:"ignore_process_uptime"`
 
 	Hidden bool `json:"hidden"`
-	Login_Users []User `json:"login_users"`
+	Login_Users []auth.User `json:"login_users"`
 }
