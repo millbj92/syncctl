@@ -9,7 +9,7 @@ import (
 	//"github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
 
-	"github.com/millbj92/synctl/pkg/management"
+	"github.com/millbj92/synctl/libs/management"
 )
 
 func main() {
