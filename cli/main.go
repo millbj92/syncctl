@@ -67,11 +67,17 @@ func main() {
 			Name:   "copy",
 			Flags:  []cli.Flag{
 				&cli.PathFlag{
-					Name:  "path",
+					Name:  "source",
 					Category: "File Management",
 					Usage: "Path to file or directory",
 					Aliases: []string{"-p", "--path"},
 					Required: true,
+				},
+				&cli.PathFlag{
+					Name:  "destination",
+					Category: "File Management",
+					Usage: "Destination path",
+					Aliases: []string{"-d", "--destination"},
 				},
 				&cli.StringFlag{
 					Name: "include",
@@ -168,6 +174,24 @@ func main() {
 					Aliases: []string{"-r", "--recursive"},
 					Usage: "Recurse through directories",
 				},
+				&cli.BoolFlag{
+					Name: "force",
+					Category: "File Management",
+					Usage: "Force overwrite",
+					Aliases: []string{"-f", "--force"},
+				},
+			    &cli.BoolFlag{
+					Name: "delete",
+					Category: "File Management",
+					Usage: "Delete files in destination that are not in source",
+					Aliases: []string{"-dd", "--delete-destination"},
+				},
+				&cli.BoolFlag{
+					Name: "destructive",
+					Category: "File Management",
+					Usage: "Delete files in source after syncing",
+					Aliases: []string{"-dd", "--destructive"},
+				},
 			},
 			Aliases: []string{"sync"},
 			Usage:  "Sync object(s)",
@@ -188,6 +212,12 @@ func main() {
 					Category: "File Management",
 					Usage: "Pattern to include files (e.g. *.txt)",
 					Aliases: []string{"-i", "--include"},
+				},
+				&cli.StringFlag{
+					Name: "exclude",
+					Category: "File Management",
+					Usage: "Pattern to exclude files (e.g. *.exe)",
+					Aliases: []string{"-e", "--exclude"},
 				},
 				&cli.StringFlag{
 					Name: "prefix",
