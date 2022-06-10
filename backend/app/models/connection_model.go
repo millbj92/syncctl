@@ -23,7 +23,7 @@ type Connection struct {
 
 	Memory_Total int `json:"memory_total"`
 	Memory_Free int `json:"memory_free"`
-	Top_ten_processes []Process `json:"top_ten_processes"`
+	//Top_ten_processes []Process `json:"top_ten_processes"`
 
 	CPU_Total int `json:"cpu_total"`
 	CPU_Free int `json:"cpu_free"`

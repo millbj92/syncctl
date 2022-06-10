@@ -24,5 +24,7 @@
   "go.gotoSymbol.includeImports": false,
   "go.trace.server": "off",
   "go.useCodeSnippetsOnFunctionSuggest": false,
-  "go-template.languages": ["toml", "yaml", "helmfile", "gotpl"]
+  "go-template.languages": ["toml", "yaml", "helmfile", "gotpl"],
+  "go.docsTool": "guru",
+  "go.useLanguageServer": true
 }

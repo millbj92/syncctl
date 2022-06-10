@@ -5,8 +5,11 @@ import (
 	//"fmt"
 	//"strconv"
 
+	//"github.com/vladimirvivien/go-netbox/netbox"
 	//"github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
+
+	"github.com/millbj92/synctl/pkg/management"
 )
 
 func main() {
@@ -22,15 +25,198 @@ func main() {
 		},
 	}
 	app.Commands = []*cli.Command{
-			startWalk(),
+		{
+			Name:    "help",
+			Aliases: []string{"h"},
+			Usage:  "Show help",
+			Action: Help,
+		},
+		{
+			Name:    "delete",
+			Flags:   []cli.Flag{
+				&cli.PathFlag{
+					Name:  "path",
+					Category: "File Management",
+					Usage: "Path to file or directory",
+					Aliases: []string{"-p", "--path"},
+					Required: true,
+				},
+				&cli.StringFlag{
+					Name: "include",
+					Category: "File Management",
+					Usage: "Include files matching pattern",
+					Aliases: []string{"-i", "--include"},
+				},
+				&cli.StringFlag{
+					Name: "exclude",
+					Category: "File Management",
+					Usage: "Exclude files matching pattern",
+					Aliases: []string{"-e", "--exclude"},
+				},
+				&cli.BoolFlag{
+					Name:  "recursive",
+					Aliases: []string{"-r", "--recursive"},
+					Usage: "Recurse through directories",
+				},
+			},
+			Aliases: []string{"rm"},
+			Usage:  "Delete object(s)",
+			Action: management.DeleteFiles,
+		},
+		{
+			Name:   "copy",
+			Flags:  []cli.Flag{
+				&cli.PathFlag{
+					Name:  "path",
+					Category: "File Management",
+					Usage: "Path to file or directory",
+					Aliases: []string{"-p", "--path"},
+					Required: true,
+				},
+				&cli.StringFlag{
+					Name: "include",
+					Category: "File Management",
+					Usage: "Include files matching pattern",
+					Aliases: []string{"-i", "--include"},
+				},
+				&cli.StringFlag{
+					Name: "exclude",
+					Category: "File Management",
+					Usage: "Exclude files matching pattern",
+					Aliases: []string{"-e", "--exclude"},
+				},
+				&cli.BoolFlag{
+					Name:  "recursive",
+					Aliases: []string{"-r", "--recursive"},
+					Usage: "Recurse through directories",
+				},
+			},
+			Aliases: []string{"cp"},
+			Usage:  "Copy object(s)",
+			Action: management.CopyFiles,
+		},
+		{
+			Name:   "move",
+			Flags:  []cli.Flag{
+				&cli.PathFlag{
+					Name:  "source",
+					Category: "File Management",
+					Usage: "Path to file or directory that wil be the source",
+					Aliases: []string{"-p", "--path"},
+					Required: true,
+				},
+				&cli.PathFlag{
+					Name:  "destination",
+					Category: "File Management",
+					Usage: "Path to file or directory that wil be the destination",
+					Aliases: []string{"-d", "--destination"},
+					Required: true,
+				},
+				&cli.StringFlag{
+					Name: "include",
+					Category: "File Management",
+					Usage: "Include files matching pattern",
+					Aliases: []string{"-i", "--include"},
+				},
+				&cli.StringFlag{
+					Name: "exclude",
+					Category: "File Management",
+					Usage: "Exclude files matching pattern",
+					Aliases: []string{"-e", "--exclude"},
+				},
+				&cli.BoolFlag{
+					Name:  "recursive",
+					Aliases: []string{"-r", "--recursive"},
+					Usage: "Recurse through directories",
+				},
+			},
+			Aliases: []string{"mv"},
+			Usage:  "Move object(s)",
+			Action: management.MoveFiles,
+		},
+		{
+			Name:   "sync",
+			Flags:  []cli.Flag{
+				&cli.PathFlag{
+					Name:  "source",
+					Category: "File Management",
+					Usage: "Path to file or directory that wil be the source",
+					Aliases: []string{"-p", "--path"},
+					Required: true,
+				},
+				&cli.PathFlag{
+					Name:  "destination",
+					Category: "File Management",
+					Usage: "Path to file or directory that wil be the destination",
+					Aliases: []string{"-d", "--destination"},
+					Required: true,
+				},
+				&cli.StringFlag{
+					Name: "include",
+					Category: "File Management",
+					Usage: "Include files matching pattern",
+					Aliases: []string{"-i", "--include"},
+				},
+				&cli.StringFlag{
+					Name: "exclude",
+					Category: "File Management",
+					Usage: "Exclude files matching pattern",
+					Aliases: []string{"-e", "--exclude"},
+				},
+				&cli.BoolFlag{
+					Name:  "recursive",
+					Aliases: []string{"-r", "--recursive"},
+					Usage: "Recurse through directories",
+				},
+			},
+			Aliases: []string{"sync"},
+			Usage:  "Sync object(s)",
+			Action: management.SyncFiles,
+		},
+		{
+			Name: "rename",
+			Flags: []cli.Flag{
+				&cli.PathFlag{
+					Name:  "source",
+					Category: "File Management",
+					Usage: "Path to file or directory that wil be the source",
+					Aliases: []string{"-p", "--path"},
+					Required: true,
+				},
+				&cli.StringFlag{
+					Name: "include",
+					Category: "File Management",
+					Usage: "Pattern to include files (e.g. *.txt)",
+					Aliases: []string{"-i", "--include"},
+				},
+				&cli.StringFlag{
+					Name: "prefix",
+					Category: "File Management",
+					Usage: "Prefix to add to file names",
+					Aliases: []string{"-p", "--prefix"},
+				},
+				&cli.StringFlag{
+					Name: "extension",
+					Category: "File Management",
+					Usage: "Rename files with this filetype extension (e.g. .rtf)",
+					Aliases: []string{"-e", "--extension"},
+				},
+				&cli.BoolFlag{
+					Name:  "recursive",
+					Aliases: []string{"-r", "--recursive"},
+					Usage: "Recurse through directories",
+				},
+			},
+			Aliases: []string{"rename"},
+			Usage:  "Rename files",
+			Action: management.RenameFiles,
+		},
+	  }
+	  app.Action = Help
 	}
-	app.Action = startWalk()
-}
 
 
-func startWalk() *cli.Command {
 
-}
 // func Server () *cli.Command{
 //     return &cli.Command{
 // 		Name: "server",
@@ -73,11 +259,11 @@ func startWalk() *cli.Command {
 
 
 
-// func Help(ctx *cli.Context) error {
-// 	ctx.App.Command("help").Run(ctx)
+func Help(ctx *cli.Context) error {
+	ctx.App.Command("help").Run(ctx)
 
-// 	return nil
-// }
+	return nil
+}
 
 
 // func ParseArgs(oper string) error {

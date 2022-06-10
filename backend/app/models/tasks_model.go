@@ -1,27 +1,21 @@
 package models
 
-import (
-	"time"
-
-	"github.com/google/uuid"
-)
+type TaskArgs struct {
+	Path        string     `yaml:"path"`
+	Glob        string     `yaml:"glob"`
+	Regex       string     `yaml:"regex"`
+	Ignore      []string   `yaml:"ignore`
+	Recursive   bool       `yaml:"recursive"`
+	Content     string     `yaml:"content"`
+	Destination string     `yaml:"destination"`
+	Replacement string     `yaml:"replacement"`
+	Force 		bool       `yaml:"force"`
+}
 
 type Task struct {
-	ID uuid.UUID `db:"id" json:"id" validate:"required,uuid"`
-	CreatedAt time.Time `db:"created_at" json:"created_at"`
-	UpdatedAt time.Time `db:"updated_at" json:"updated_at"`
-
-	Name string `db:"name" json:"name" validate:"required,lte=255"`
-	Interval string `db:"interval" json:"interval" validate:"required,lte=255"`
-	Type string `db:"type" json:"type" validate:"required,lte=255"`
-	Status string `db:"status" json:"status" validate:"required,lte=255"`
-	LastRun time.Time `db:"last_run" json:"last_run"`
-	NextRun time.Time `db:"next_run" json:"next_run"`
-
-	StartAt time.Time `db:"start_at" json:"start_at"`
-	EndAt time.Time `db:"end_at" json:"end_at"`
-
-
-	Disabled bool `db:"disabled" json:"disabled"`
-	Deleted bool `db:"deleted" json:"deleted"`
-}
+	Name        string `yaml:"name"`
+	Description string `yaml:"description"`
+	Action 	    string `yaml:"action"`
+	Tags		[]string `yaml:"tags"`
+	Args		TaskArgs `yaml:"args"`
+ }

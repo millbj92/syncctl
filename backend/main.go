@@ -3,19 +3,23 @@ package main
 import (
 	//"os"
 
+	_ "fmt"
+	"io/ioutil"
+
 	//"github.com/millbj92/synctl/pkg/configs"
 	//"github.com/millbj92/synctl/pkg/middleware"
 	//"github.com/millbj92/synctl/pkg/routes"
-	_ "fmt"
 
+	"github.com/millbj92/synctl/app/models"
 	"github.com/millbj92/synctl/pkg/management"
 
 	//"github.com/Masterminds/sprig"
 	//"html/template"
 
 	//"github.com/gofiber/fiber/v2"
-	  "github.com/sirupsen/logrus"
+	//"github.com/sirupsen/logrus"
 	_ "github.com/joho/godotenv/autoload"
+	"gopkg.in/yaml.v3"
 )
 
 // @title Synctl Server
@@ -33,8 +37,35 @@ import (
 // @in header
 // @name Authorization
 func main() {
-	//management.GetVMem()
-     logrus.Info(management.GetDiskUsageByPath("."))
+	yfile, err := ioutil.ReadFile("./config.yml")
+	if err != nil {
+		panic(err)
+	}
+
+	data := make([]models.Task, 0)
+
+	 err2 := yaml.Unmarshal(yfile, &data)
+	if err2 != nil {
+		panic(err2)
+	}
+
+	for _, task := range data {
+		switch task.Action {
+		case "delete":
+			management.DeleteFiles(task.Args)
+		// case "write":
+		// 	management.WriteFiles(task.Args)
+		// case "copy":
+		// 	management.CopyFiles(task.Args)
+		// case "move":
+		// 	management.MoveFiles(task.Args)
+		// case "rename":
+		// 	management.RenameFiles(task.Args)
+	  }
+
+
+
+
 	// config := configs.ConfigureFiber()
 
 	// app := fiber.New(config)
@@ -48,7 +79,9 @@ func main() {
 
 	// if os.Getenv("APP_ENV") == "development" {
 	// 	app.Listen(":8080")
-	// } else {
-	// 	app.Listen(":" + os.Getenv("PORT"))
-	// }
+	// 	} else {
+	// 		app.Listen(":" + os.Getenv("PORT"))
+	//	}
+	//management.WatchPath("../");
+  }
 }

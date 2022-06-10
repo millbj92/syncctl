@@ -31,7 +31,7 @@ type ConnectionSettings struct {
 	Exclude_Regex []string `json:"exclude_files_regex"`
 	Sync_On_Startup bool `json:"sync_on_startup"`
 
-	ManagedProcesses []Process `json:"managed_processes"`
+	//ManagedProcesses []Process `json:"managed_processes"`
 	Ignored_PIDs []int `json:"ignored_pids"`
 	Ignored_Processes []string `json:"ignored_processes"`
 	Ignore_Process_Pattern string `json:"ignore_process_pattern"`

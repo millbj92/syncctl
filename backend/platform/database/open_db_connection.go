@@ -3,8 +3,8 @@ package database
 import (
 	"os"
 
-	"github.com/millbj92/synctl/app/queries"
 	"github.com/jmoiron/sqlx"
+	"github.com/millbj92/synctl/app/queries"
 )
 
 // Queries struct for collect all app queries.

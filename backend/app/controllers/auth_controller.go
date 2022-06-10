@@ -90,7 +90,7 @@ func CreateUser(c *fiber.Ctx) error {
 		)
 	}
 
-	if err := db.CreateUser(user); err != nil {
+	if _, err := db.GetUserByEmail(user.Email); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(
 			fiber.Map{
 				"error": true,
