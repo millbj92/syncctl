@@ -1,0 +1,248 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "The Synctl Server is meant to act as a bridge between the\nnodes in a synctl cluster. It will be used to sync files\nbetween nodes, schedule remote nodes for self cleanup, and\nperform other general housekeeping tasks.",
+        "title": "Synctl Server",
+        "contact": {
+            "name": "Brandon Miller",
+            "email": "brandon@brandonmiller.io"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://github.com/millbj92/synctl/blob/master/LICENSE"
+        },
+        "version": "1.0"
+    },
+    "basePath": "/api",
+    "paths": {
+        "/api/v1/disk/usage/": {
+            "get": {
+                "description": "Get a systems disk usage",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "disk"
+                ],
+                "summary": "Get a systems disk usage",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.DiskResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/tokens/renew/": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Renew expired tokens",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "token"
+                ],
+                "summary": "Renew expired tokens",
+                "parameters": [
+                    {
+                        "description": "Refresh Token",
+                        "name": "refresh_token",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/auth.Renew"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/create/": {
+            "post": {
+                "description": "Create a new user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Create a new user",
+                "parameters": [
+                    {
+                        "description": "Email",
+                        "name": "email",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Password",
+                        "name": "password",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "First Name",
+                        "name": "first_name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Last Name",
+                        "name": "last_name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Role",
+                        "name": "role",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/auth.User"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "auth.Renew": {
+            "type": "object",
+            "properties": {
+                "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "auth.User": {
+            "type": "object",
+            "required": [
+                "email",
+                "first_name",
+                "id",
+                "last_name",
+                "password",
+                "role"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "first_name": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "id": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "role": {
+                    "type": "string",
+                    "default": "disabled",
+                    "maxLength": 255
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.DiskResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/controllers.DiskUsage"
+                },
+                "error": {
+                    "type": "boolean"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.DiskUsage": {
+            "type": "object",
+            "properties": {
+                "free": {
+                    "type": "integer"
+                },
+                "fstype": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "used": {
+                    "type": "integer"
+                },
+                "usedPercent": {
+                    "type": "number"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

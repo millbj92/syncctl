@@ -4,10 +4,10 @@ import (
 	"context"
 	"time"
 
-	models "github.com/millbj92/synctl/pkg/models/auth"
-	"github.com/millbj92/synctl/pkg/utils"
 	"github.com/millbj92/synctl/internal/cache"
 	"github.com/millbj92/synctl/internal/database"
+	models "github.com/millbj92/synctl/pkg/models/auth"
+	"github.com/millbj92/synctl/pkg/utils"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -24,8 +24,8 @@ import (
 // @Param first_name body string true "First Name"
 // @Param last_name body string true "Last Name"
 // @Param role body string true "Role"
-// @Success 200 {object} models.User
-// @Router /v1/users/create
+// @Success 200 {object} auth.User
+// @Router /v1/users/create/ [post]
 func CreateUser(c *fiber.Ctx) error {
 	create := &models.UserForCreate{}
 
@@ -33,29 +33,28 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
 
-    validate := utils.NewValidator()
+	validate := utils.NewValidator()
 
 	if err := validate.Struct(create); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
-
 
 	db, err := database.Connect()
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
@@ -65,7 +64,7 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
@@ -85,7 +84,7 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
@@ -94,7 +93,7 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
@@ -103,8 +102,8 @@ func CreateUser(c *fiber.Ctx) error {
 
 	return c.JSON(fiber.Map{
 		"error": false,
-		"msg": nil,
-		"user": user,
+		"msg":   nil,
+		"user":  user,
 	})
 }
 
@@ -115,7 +114,7 @@ func UserLogin(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
@@ -125,7 +124,7 @@ func UserLogin(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
@@ -135,7 +134,7 @@ func UserLogin(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": "Email or password is incorrect",
+				"msg":   "Email or password is incorrect",
 			},
 		)
 	}
@@ -145,7 +144,7 @@ func UserLogin(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": "Email or password is incorrect",
+				"msg":   "Email or password is incorrect",
 			},
 		)
 	}
@@ -155,7 +154,7 @@ func UserLogin(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
@@ -165,7 +164,7 @@ func UserLogin(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
@@ -177,31 +176,30 @@ func UserLogin(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
 
-	errSaveToRedis := connRedis.Set(context.Background(), userID, tokens.Refresh,0).Err()
+	errSaveToRedis := connRedis.Set(context.Background(), userID, tokens.Refresh, 0).Err()
 	if errSaveToRedis != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": errSaveToRedis.Error(),
+				"msg":   errSaveToRedis.Error(),
 			},
 		)
 	}
 
 	return c.JSON(fiber.Map{
 		"error": false,
-		"msg": nil,
+		"msg":   nil,
 		"tokens": fiber.Map{
-			"access": tokens.Access,
+			"access":  tokens.Access,
 			"refresh": tokens.Refresh,
 		},
 	})
 }
-
 
 func UserLogout(c *fiber.Ctx) error {
 	claims, err := utils.ExtractTokenMetadata(c)
@@ -209,7 +207,7 @@ func UserLogout(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
@@ -221,7 +219,7 @@ func UserLogout(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
@@ -231,7 +229,7 @@ func UserLogout(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": errDelFromRedis.Error(),
+				"msg":   errDelFromRedis.Error(),
 			},
 		)
 	}

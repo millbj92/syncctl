@@ -1,0 +1,169 @@
+basePath: /api
+definitions:
+  auth.Renew:
+    properties:
+      refresh_token:
+        type: string
+    type: object
+  auth.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        maxLength: 255
+        type: string
+      first_name:
+        maxLength: 255
+        type: string
+      id:
+        type: string
+      last_name:
+        maxLength: 255
+        type: string
+      password:
+        maxLength: 255
+        type: string
+      role:
+        default: disabled
+        maxLength: 255
+        type: string
+      updated_at:
+        type: string
+    required:
+    - email
+    - first_name
+    - id
+    - last_name
+    - password
+    - role
+    type: object
+  controllers.DiskResponse:
+    properties:
+      data:
+        $ref: '#/definitions/controllers.DiskUsage'
+      error:
+        type: boolean
+      msg:
+        type: string
+    type: object
+  controllers.DiskUsage:
+    properties:
+      free:
+        type: integer
+      fstype:
+        type: string
+      path:
+        type: string
+      total:
+        type: integer
+      used:
+        type: integer
+      usedPercent:
+        type: number
+    type: object
+info:
+  contact:
+    email: brandon@brandonmiller.io
+    name: Brandon Miller
+  description: |-
+    The Synctl Server is meant to act as a bridge between the
+    nodes in a synctl cluster. It will be used to sync files
+    between nodes, schedule remote nodes for self cleanup, and
+    perform other general housekeeping tasks.
+  license:
+    name: MIT
+    url: https://github.com/millbj92/synctl/blob/master/LICENSE
+  title: Synctl Server
+  version: "1.0"
+paths:
+  /api/v1/disk/usage/:
+    get:
+      consumes:
+      - application/json
+      description: Get a systems disk usage
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.DiskResponse'
+      summary: Get a systems disk usage
+      tags:
+      - disk
+  /v1/tokens/renew/:
+    post:
+      consumes:
+      - application/json
+      description: Renew expired tokens
+      parameters:
+      - description: Refresh Token
+        in: body
+        name: refresh_token
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.Renew'
+      security:
+      - ApiKeyAuth: []
+      summary: Renew expired tokens
+      tags:
+      - token
+  /v1/users/create/:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: Email
+        in: body
+        name: email
+        required: true
+        schema:
+          type: string
+      - description: Password
+        in: body
+        name: password
+        required: true
+        schema:
+          type: string
+      - description: First Name
+        in: body
+        name: first_name
+        required: true
+        schema:
+          type: string
+      - description: Last Name
+        in: body
+        name: last_name
+        required: true
+        schema:
+          type: string
+      - description: Role
+        in: body
+        name: role
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.User'
+      summary: Create a new user
+      tags:
+      - user
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

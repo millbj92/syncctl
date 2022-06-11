@@ -8,10 +8,8 @@ import (
 func PublicRoutes(a *fiber.App) {
 	route := a.Group("/api/v1")
 
-
 	route.Get("/login", controllers.UserLogin)
 	route.Post("/login", controllers.UserLogin)
-
 
 	//change to private routes
 	route.Get("/disk/usage", controllers.GetDiskUsage)

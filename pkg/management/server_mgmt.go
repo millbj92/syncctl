@@ -27,19 +27,19 @@ func StartServer(a *fiber.App, host string, port int) {
 
 	// Build Fiber connection URL.
 	fiberURL := BuildFiberURL(host, port)
-
+	log.Printf("Starting server on %s", fiberURL)
 	// Run server.
 	if err := a.Listen(fiberURL); err != nil {
-		log.Printf("Server refused to run. Info: %v", err)
+		log.Printf("Server refused to run. Info: %v, %v", err, fiberURL)
+		//log.Printf("Server refused to run. Info: %v", err)
 	}
 
 	<-exit
 }
 
-func BuildFiberURL (host string, port int) string {
-	return fmt.Sprintf("http://%s:%d",  host, port)
+func BuildFiberURL(host string, port int) string {
+	return fmt.Sprintf("%s:%d", host, port)
 }
-
 
 func DebugStartServer(a *fiber.App) {
 	// Build Fiber connection URL.

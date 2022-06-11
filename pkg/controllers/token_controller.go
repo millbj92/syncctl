@@ -19,9 +19,9 @@ import (
 // @Accept json
 // @Produce json
 // @Param refresh_token body string true "Refresh Token"
-// @Success 200 {object} models.Token
+// @Success 200 {object} auth.Renew
 // @Security ApiKeyAuth
-// @Router /v1/tokens/renew
+// @Router /v1/tokens/renew/ [post]
 func RenewTokens(c *fiber.Ctx) error {
 	now := time.Now().Unix()
 
@@ -30,7 +30,7 @@ func RenewTokens(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
@@ -41,7 +41,7 @@ func RenewTokens(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": "Access token has expired",
+				"msg":   "Access token has expired",
 			},
 		)
 	}
@@ -52,7 +52,7 @@ func RenewTokens(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
@@ -62,7 +62,7 @@ func RenewTokens(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": err.Error(),
+				"msg":   err.Error(),
 			},
 		)
 	}
@@ -75,7 +75,7 @@ func RenewTokens(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusInternalServerError).JSON(
 				fiber.Map{
 					"error": true,
-					"msg": err.Error(),
+					"msg":   err.Error(),
 				},
 			)
 		}
@@ -85,7 +85,7 @@ func RenewTokens(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusInternalServerError).JSON(
 				fiber.Map{
 					"error": true,
-					"msg": err.Error(),
+					"msg":   err.Error(),
 				},
 			)
 		}
@@ -95,7 +95,7 @@ func RenewTokens(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusBadRequest).JSON(
 				fiber.Map{
 					"error": true,
-					"msg": err.Error(),
+					"msg":   err.Error(),
 				},
 			)
 		}
@@ -105,7 +105,7 @@ func RenewTokens(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusInternalServerError).JSON(
 				fiber.Map{
 					"error": true,
-					"msg": err.Error(),
+					"msg":   err.Error(),
 				},
 			)
 		}
@@ -115,7 +115,7 @@ func RenewTokens(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusInternalServerError).JSON(
 				fiber.Map{
 					"error": true,
-					"msg": err.Error(),
+					"msg":   err.Error(),
 				},
 			)
 		}
@@ -125,16 +125,16 @@ func RenewTokens(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusInternalServerError).JSON(
 				fiber.Map{
 					"error": true,
-					"msg": errRedis.Error(),
+					"msg":   errRedis.Error(),
 				},
 			)
 		}
 
 		return c.JSON(fiber.Map{
 			"error": false,
-			"msg": nil,
+			"msg":   nil,
 			"tokens": fiber.Map{
-				"access": tokens.Access,
+				"access":  tokens.Access,
 				"refresh": tokens.Refresh,
 			},
 		})
@@ -142,7 +142,7 @@ func RenewTokens(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).JSON(
 			fiber.Map{
 				"error": true,
-				"msg": "Session ended",
+				"msg":   "Session ended",
 			},
 		)
 	}

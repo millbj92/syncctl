@@ -14,13 +14,13 @@ import (
 func ServerCommands() *cli.Command {
 	var fiberApp *fiber.App = nil
 
-    return &cli.Command{
-		Name: "server",
-		Aliases: []string{"--sv"},
-		Usage:  "Start server",
-		UsageText: "server [command] [flags]",
+	return &cli.Command{
+		Name:        "server",
+		Aliases:     []string{"--sv"},
+		Usage:       "Start server",
+		UsageText:   "server [command] [flags]",
 		Description: "Starts as a master node to relay all commands to remotes",
-		ArgsUsage: "[command] [flags]",
+		ArgsUsage:   "[command] [flags]",
 		Subcommands: []*cli.Command{
 			&cli.Command{
 				Name: "start",
@@ -30,20 +30,20 @@ func ServerCommands() *cli.Command {
 				},
 				Flags: []cli.Flag{
 					&cli.IntFlag{
-						Name: "port",
-						Aliases: []string{"p"},
-						EnvVars: []string{"SERVER_PORT"},
-						Value: 8101,
+						Name:        "port",
+						Aliases:     []string{"p"},
+						EnvVars:     []string{"SERVER_PORT"},
+						Value:       8101,
 						DefaultText: "8101",
 					},
 					&cli.StringFlag{
-						Name: "host",
-						Category: "Server",
-						Usage: "Host to listen on",
-						EnvVars: []string{"SERVER_HOST"},
+						Name:        "host",
+						Category:    "Server",
+						Usage:       "Host to listen on",
+						EnvVars:     []string{"SERVER_HOST"},
 						DefaultText: "Server will listen on all interfaces",
-						Value: "localhost",
-						Aliases: []string{"hs"},
+						Value:       "0.0.0.0",
+						Aliases:     []string{"hs"},
 					},
 				},
 			},
@@ -58,14 +58,14 @@ func ServerCommands() *cli.Command {
 			},
 		},
 		SkipFlagParsing: false,
-		HideHelp: false,
-		HelpName: "server",
+		HideHelp:        false,
+		HelpName:        "server",
 		BashComplete: func(c *cli.Context) {
 			fmt.Fprintf(c.App.Writer, "--host, h, --port, p")
 		},
 		Before: func(c *cli.Context) error {
 			if c.Args().First() == "start" {
-			fmt.Fprintf(c.App.Writer, "\n\n\t\t🚀 OH LAWD WE COMIN\n")
+				fmt.Fprintf(c.App.Writer, "\n\n\t\t🚀 OH LAWD WE COMIN\n")
 			}
 
 			if c.Args().First() == "stop" {
@@ -75,7 +75,7 @@ func ServerCommands() *cli.Command {
 		},
 		After: func(c *cli.Context) error {
 			if c.Args().First() == "start" {
-			  fmt.Fprintf(c.App.Writer, "Server successfully started. Welcome aboard!\n")
+				fmt.Fprintf(c.App.Writer, "Server successfully started. Welcome aboard!\n")
 			}
 			if c.Args().First() == "stop" {
 				fmt.Fprintf(c.App.Writer, "Server successfully stopped. See you next time!\n")
@@ -93,9 +93,8 @@ func ServerCommands() *cli.Command {
 			fmt.Fprintf(c.App.Writer, "Error: %s\n", err.Error())
 			return err
 		},
-	};
+	}
 }
-
 
 func StartServer(host string, port int) *fiber.App {
 	config := configs.ConfigureFiber()
@@ -104,6 +103,7 @@ func StartServer(host string, port int) *fiber.App {
 	middleware.LoadMiddleware(app)
 	routes.PublicRoutes(app)
 	routes.PrivateRoutes(app)
+	routes.SwaggerRoute(app)
 	routes.NotFoundRoute(app)
 	management.StartServer(app, host, port)
 
@@ -113,4 +113,3 @@ func StartServer(host string, port int) *fiber.App {
 func StopServer(a *fiber.App) error {
 	return a.Shutdown()
 }
-
