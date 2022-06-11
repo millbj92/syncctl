@@ -15,25 +15,35 @@ func DeleteFiles(args tasks.TaskArgs) error {
 	log.Println("Starting Delete Task:", args)
 	//Gets all ffiles that match the include flag
 	matches, err := filepath.Glob(args.Include)
-	var toDelete []string
+	var toKeep []string
 	if err != nil {
+		log.Println("Error:", err)
 		return err
 	}
+	log.Println("Matches:", matches)
 	//For each file that matches the include flag
 	//If the file is not in the exclude flag, delete it
 	//else, skip and log it
-	for _, match := range matches {
-		r, _ := regexp.Compile(args.Exclude)
-		m := r.FindStringIndex(match)
-		if m == nil {
-			log.Println("Deleting: ", match)
-			toDelete = append(toDelete, match)
-			if err != nil {
-				return err
+	for i, match := range matches {
+		log.Println(match)
+		if args.Exclude != "" {
+			r, _ := regexp.Compile(args.Exclude)
+			m := r.FindStringIndex(match)
+			if m != nil {
+				matches = remove(matches, i)
+			} else {
+				toKeep = append(toKeep, match)
 			}
-
-		} else {
-			log.Println("Exclude matched, Skipping: ", filepath.Base(match))
+		}
+	}
+	if len(toKeep) > 0 {
+		log.Println("Keeping: ", sum(toKeep))
+	}
+	if len(matches) > 0 {
+		err = RunDelete(matches)
+		if err != nil {
+			log.Println("Error Deleting: ", err)
+			return err
 		}
 	}
 	return nil
@@ -41,14 +51,29 @@ func DeleteFiles(args tasks.TaskArgs) error {
 
 func RunDelete(toDelete []string) error {
 	for _, file := range toDelete {
-		err := os.Remove(file)
-		if err != nil {
-			return err
+		info, _ := os.Stat(file)
+
+		if info.IsDir() {
+			err := os.RemoveAll(file)
+			if err != nil {
+				return err
+			}
+		} else {
+
+			mode := info.Mode()
+			if mode.IsRegular() {
+				err := os.Remove(file)
+				if err != nil {
+					log.Println(err.Error())
+					return err
+				}
+			} else {
+				log.Println("Skipping: ", file)
+			}
 		}
 	}
 	return nil
 }
-
 
 func CopyFiles(args tasks.CopyArgs) error {
 	log.Println("Starting Copy Task:", args)
@@ -97,7 +122,7 @@ func MoveFiles(args tasks.MoveArgs) error {
 func ListFiles(args tasks.TaskArgs) error {
 	log.Println("Starting List Task:", args)
 
-	if(args.Recursive) {
+	if args.Recursive {
 		err := filepath.Walk(args.Source,
 			func(path string, info os.FileInfo, err error) error {
 				if err != nil {
@@ -179,8 +204,6 @@ func copyFile(src, dst string) error {
 	return out.Close()
 }
 
-
-
 func sum(array []string) int64 {
 	var result int64
 	for _, v := range array {
@@ -191,9 +214,14 @@ func sum(array []string) int64 {
 	return result
 }
 
-func ContainsRegex (s []string, e string) bool {
+func remove(s []string, i int) []string {
+	s[i] = s[len(s)-1]
+	return s[:len(s)-1]
+}
+
+func ContainsRegex(s []string, e string) bool {
 	for _, a := range s {
-		r, _  := regexp.Compile(a)
+		r, _ := regexp.Compile(a)
 		m := r.FindStringIndex(a)
 		if m != nil {
 			log.Println("Regex:", a, " matched:", e)
@@ -203,7 +231,7 @@ func ContainsRegex (s []string, e string) bool {
 	return false
 }
 
-func contains (s []string, e string) bool {
+func contains(s []string, e string) bool {
 	for _, a := range s {
 		if a == e {
 			log.Println("Ignore:", a, " matched:", e)
