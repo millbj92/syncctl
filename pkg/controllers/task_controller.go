@@ -4,7 +4,6 @@ import (
 	"github.com/millbj92/synctl/pkg/management"
 )
 
-func CreateTask()  {
-	management.WatchPath("../../");
+func CreateTask() {
+	management.WatchPath("../../")
 }
-

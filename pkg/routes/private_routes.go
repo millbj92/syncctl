@@ -1,11 +1,10 @@
 package routes
 
 import (
+	"github.com/gofiber/fiber/v2"
 	"github.com/millbj92/synctl/pkg/controllers"
 	"github.com/millbj92/synctl/pkg/middleware"
-	"github.com/gofiber/fiber/v2"
 )
-
 
 func PrivateRoutes(a *fiber.App) {
 	route := a.Group("/api/v1")
@@ -38,7 +37,7 @@ func PrivateRoutes(a *fiber.App) {
 	// route.Post("/tasks/restart", middleware.Protected(), controllers.RestartTask)
 	// route.Get("/tasks/status", middleware.Protected(), controllers.GetTaskStatus)
 	// route.Get("/tasks/logs", middleware.Protected(), controllers.GetTaskLogs)
-    // route.Get("/tasks/logs/:id/download", middleware.Protected(), controllers.DownloadTaskLogs)
+	// route.Get("/tasks/logs/:id/download", middleware.Protected(), controllers.DownloadTaskLogs)
 
 	// route.Post("/links", middleware.Protected(), controllers.CreateLink)
 	// route.Get("/links", middleware.Protected(), controllers.GetLinks)

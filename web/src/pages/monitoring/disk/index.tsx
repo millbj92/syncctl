@@ -74,15 +74,21 @@ export const DiskMonitor = (props: Props) => {
     setLoading(true);
     setError(false);
     try {
-      const response = await fetch('http://localhost:8080/api/v1/disk/usage');
+      const response = await fetch(
+        `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/v1/disk/usage/`
+      );
+      console.log(response);
       const json = (await response.json()) as DiskStatResponse;
       if (json.error) {
-        setError(true);
-        return;
+        console.log(json);
+        //setError(true);
+        //return;
       }
+      console.log(json);
       setData(json.data);
       setLoading(false);
     } catch (error) {
+      console.log(error);
       setError(true);
     }
   };

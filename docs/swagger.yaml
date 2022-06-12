@@ -37,16 +37,16 @@ definitions:
     - password
     - role
     type: object
-  controllers.DiskResponse:
+  disk.DiskResponse:
     properties:
       data:
-        $ref: '#/definitions/controllers.DiskUsage'
+        $ref: '#/definitions/disk.DiskUsage'
       error:
         type: boolean
       msg:
         type: string
     type: object
-  controllers.DiskUsage:
+  disk.DiskUsage:
     properties:
       free:
         type: integer
@@ -54,6 +54,57 @@ definitions:
         type: string
       path:
         type: string
+      total:
+        type: integer
+      used:
+        type: integer
+      usedPercent:
+        type: number
+    type: object
+  memory.AllMemoryResponse:
+    properties:
+      data:
+        $ref: '#/definitions/memory.MemoryStats'
+      error:
+        type: boolean
+      msg:
+        type: string
+    type: object
+  memory.MemoryStats:
+    properties:
+      swapDevices:
+        items:
+          $ref: '#/definitions/memory.SwapDevice'
+        type: array
+      swapMemory:
+        $ref: '#/definitions/memory.SwapMemory'
+      virtualMemory:
+        $ref: '#/definitions/memory.VirtualMemory'
+    type: object
+  memory.SwapDevice:
+    properties:
+      freeBytes:
+        type: integer
+      name:
+        type: string
+      usedBytes:
+        type: integer
+    type: object
+  memory.SwapMemory:
+    properties:
+      free:
+        type: integer
+      total:
+        type: integer
+      used:
+        type: integer
+      usedPercent:
+        type: number
+    type: object
+  memory.VirtualMemory:
+    properties:
+      available:
+        type: integer
       total:
         type: integer
       used:
@@ -87,10 +138,25 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controllers.DiskResponse'
+            $ref: '#/definitions/disk.DiskResponse'
       summary: Get a systems disk usage
       tags:
       - disk
+  /v1/memory/:
+    get:
+      consumes:
+      - application/json
+      description: Get a systems memory stats
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/memory.AllMemoryResponse'
+      summary: Get a systems memory stats
+      tags:
+      - memory
   /v1/tokens/renew/:
     post:
       consumes:

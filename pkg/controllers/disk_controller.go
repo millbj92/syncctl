@@ -4,7 +4,7 @@ import (
 	//"context"
 	//"time"
 
-	"github.com/millbj92/synctl/app/models/disk"
+	"github.com/millbj92/synctl/pkg/models/disk"
 	//"github.com/millbj92/synctl/pkg/utils"
 	//"github.com/millbj92/synctl/platform/cache"
 	//"github.com/millbj92/synctl/platform/database"
@@ -20,12 +20,12 @@ import (
 // @Tags disk
 // @Accept json
 // @Produce json
-// @Success 200 {object} DiskResponse
+// @Success 200 {object} disk.DiskResponse
 // @Router /api/v1/disk/usage/ [get]
 func GetDiskUsage(c *fiber.Ctx) error {
 
-	usage, error := monitoring.DiskUsage("/")
-	if error != nil {
+	usage, err := monitoring.DiskUsage("/")
+	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(
 			fiber.Map{
 				"error": true,

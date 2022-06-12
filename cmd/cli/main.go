@@ -44,8 +44,8 @@ func main() {
 	app.Version = "0.0.1"
 	app.Authors = []*cli.Author{
 		{
-			Name:  "Brandon Miller",
-			Email: "brandon@brandonmiller.io",
+			"Brandon Miller",
+			"brandon@brandonmiller.io",
 		},
 	}
 	app.Copyright = `Copyright (c) 2022 Enterforge, Inc. All rights reserved.`
@@ -72,6 +72,10 @@ func main() {
 }
 
 func Help(c *cli.Context) error {
-	cli.ShowAppHelp(c)
+
+	err := cli.ShowAppHelp(c)
+	if err != nil {
+		return err
+	}
 	return nil
 }

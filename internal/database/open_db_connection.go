@@ -13,7 +13,7 @@ type Queries struct {
 	//*queries.BookQueries // load queries from Book model
 }
 
-// OpenDBConnection func for opening database connection.
+// Connect func for opening database connection.
 func Connect() (*Queries, error) {
 	// Define Database connection variables.
 	var (

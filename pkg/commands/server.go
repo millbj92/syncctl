@@ -22,7 +22,7 @@ func ServerCommands() *cli.Command {
 		Description: "Starts as a master node to relay all commands to remotes",
 		ArgsUsage:   "[command] [flags]",
 		Subcommands: []*cli.Command{
-			&cli.Command{
+			{
 				Name: "start",
 				Action: func(c *cli.Context) error {
 					fiberApp = StartServer(c.String("host"), c.Int("port"))
@@ -47,7 +47,7 @@ func ServerCommands() *cli.Command {
 					},
 				},
 			},
-			&cli.Command{
+			{
 				Name: "stop",
 				Action: func(c *cli.Context) error {
 					if fiberApp == nil {
@@ -102,11 +102,11 @@ func StartServer(host string, port int) *fiber.App {
 	app := fiber.New(config)
 	middleware.LoadMiddleware(app)
 	routes.PublicRoutes(app)
+	routes.WebsocketRoutes(app)
 	routes.PrivateRoutes(app)
 	routes.SwaggerRoute(app)
 	routes.NotFoundRoute(app)
 	management.StartServer(app, host, port)
-
 	return app
 }
 

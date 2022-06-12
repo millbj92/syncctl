@@ -4,8 +4,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/millbj92/synctl/pkg/utils"
 	"github.com/go-redis/redis/v8"
+	"github.com/millbj92/synctl/pkg/utils"
 )
 
 func Connect() (*redis.Client, error) {
@@ -17,9 +17,9 @@ func Connect() (*redis.Client, error) {
 	}
 
 	options := &redis.Options{
-		Addr: redisConnUrl,
+		Addr:     redisConnUrl,
 		Password: os.Getenv("REDIS_PASSWORD"),
-		DB: dbNumber,
+		DB:       dbNumber,
 	}
 
 	return redis.NewClient(options), nil

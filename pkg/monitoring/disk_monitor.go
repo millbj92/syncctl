@@ -23,6 +23,7 @@ import (
 )
 
 type DiskOperation int64
+
 const (
 	NOOP DiskOperation = iota
 	Read
@@ -32,14 +33,13 @@ const (
 	DELETE
 )
 
-
 type DiskOpRequest struct {
-	Operation DiskOperation
-	SourceDir string
-	SearchGLOB string
-	DestDir string
+	Operation   DiskOperation
+	SourceDir   string
+	SearchGLOB  string
+	DestDir     string
 	IgnoreTypes []string
-	IgnoreDirs []string
+	IgnoreDirs  []string
 	IgnoreFiles []string
 }
 
@@ -105,11 +105,10 @@ func (d DiskOpRequest) GetSourceDir() string {
 // }
 
 func DiskUsage(path string) (*disk.UsageStat, error) {
-	st, err := disk.Usage("/")
+	st, err := disk.Usage(path)
 	if err != nil {
 		spew.Dump(err)
 	}
-
 
 	return st, nil
 
@@ -133,7 +132,7 @@ func PrintDiskUsageByPath(path string) (uint64, error) {
 }
 
 func PrintPartitions() {
-	st, err := disk.Partitions(true);
+	st, err := disk.Partitions(true)
 	if err != nil {
 		spew.Dump(err)
 	}
@@ -150,23 +149,25 @@ func PrintPartitions() {
 	tbl.Print()
 }
 
-
-
 func ScanDirs(path string) {
-	var extensions = []string { ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".tiff", ".tif", ".svg", ".webp", ".ico", ".psd", ".raw", ".arw", ".cr2", ".nef", ".dng", ".rw2", ".orf", ".raf", ".srw", ".x3f", ".rwl", ".crw", ".cr2", ".kdc", ".dcr", ".drf", ".dng", ".erf", ".fff", ".mef", ".mos", ".mrw", ".pef", ".ptx", ".raw", ".rwl", ".rw2", ".sr2", ".srf", ".srw", ".x3f", ".xmp", ".jpeg", ".jpg", ".jpeg", ".jfif", ".pjpeg", ".pjp", ".jfif-tbnl", ".jpe", ".jfif-tbnl", ".jfi", ".jfif-tiff", ".jfif-webp", ".jpm", ".jpgm", ".jpx", ".jp2", ".j2k", ".j2c", ".jpc", ".j2i", ".jfif-jpeg", ".jpm", ".jpx", ".jp2", ".j2k", ".j2c", ".jpc", ".j2i", ".jfif-jpeg", ".jpm", ".jpx", ".jp2", ".j2k", ".j2c", ".jpc", ".j2i", ".jfif-jpeg", ".jpm", ".jpx", ".jp2", ".j2k", ".j2c", ".jpc", ".j2i", ".jfif-jpeg", ".jpm", ".jpx", ".jp2", ".j2k", ".j2c", ".jpc", ".j2i", ".jfif-jpeg", ".jpm", ".jpx", ".jp2", ".j2k", ".j2c", ".jpc", ".j2i", ".jfif-jpeg", ".jpm", ".jpx", ".jp2", ".j2k", ".j2c", ".jpc", ".j2i", ".jfif-jpeg", ".jpm", ".jpx",}
+	var extensions = []string{".png", ".jpg", ".jpeg", ".gif", ".bmp", ".tiff", ".tif", ".svg", ".webp", ".ico", ".psd", ".raw", ".arw", ".cr2", ".nef", ".dng", ".rw2", ".orf", ".raf", ".srw", ".x3f", ".rwl", ".crw", ".cr2", ".kdc", ".dcr", ".drf", ".dng", ".erf", ".fff", ".mef", ".mos", ".mrw", ".pef", ".ptx", ".raw", ".rwl", ".rw2", ".sr2", ".srf", ".srw", ".x3f", ".xmp", ".jpeg", ".jpg", ".jpeg", ".jfif", ".pjpeg", ".pjp", ".jfif-tbnl", ".jpe", ".jfif-tbnl", ".jfi", ".jfif-tiff", ".jfif-webp", ".jpm", ".jpgm", ".jpx", ".jp2", ".j2k", ".j2c", ".jpc", ".j2i", ".jfif-jpeg", ".jpm", ".jpx", ".jp2", ".j2k", ".j2c", ".jpc", ".j2i", ".jfif-jpeg", ".jpm", ".jpx", ".jp2", ".j2k", ".j2c", ".jpc", ".j2i", ".jfif-jpeg", ".jpm", ".jpx", ".jp2", ".j2k", ".j2c", ".jpc", ".j2i", ".jfif-jpeg", ".jpm", ".jpx", ".jp2", ".j2k", ".j2c", ".jpc", ".j2i", ".jfif-jpeg", ".jpm", ".jpx", ".jp2", ".j2k", ".j2c", ".jpc", ".j2i", ".jfif-jpeg", ".jpm", ".jpx", ".jp2", ".j2k", ".j2c", ".jpc", ".j2i", ".jfif-jpeg", ".jpm", ".jpx",}
 	fsys := os.DirFS(path)
-	fs.WalkDir(fsys, ".",
-	    func(p string,
-		  d fs.DirEntry, err error) error {
-			i, err := d.Info(); if err != nil {
+	err := fs.WalkDir(fsys, ".",
+		func(p string,
+			d fs.DirEntry, err error) error {
+			i, err := d.Info();
+			if err != nil {
 				spew.Dump(err)
 				return err
 			}
 			if contains(extensions, filepath.Ext(p)) {
-			  spew.Dump(i.Name())
+				spew.Dump(i.Name())
 			}
 			return nil
-	})
+		})
+	if err != nil {
+		return
+	}
 }
 
 func contains(s []string, str string) bool {
@@ -179,15 +180,15 @@ func contains(s []string, str string) bool {
 	return false
 }
 
-	// fs.WalkDir(fsys, '.', func(path string, info os.FileInfo, err error) error {
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// 	dirs.Add(info, info.Size())
-	// 	return nil
-	// }, err error,
+// fs.WalkDir(fsys, '.', func(path string, info os.FileInfo, err error) error {
+// 	if err != nil {
+// 		return err
+// 	}
+// 	dirs.Add(info, info.Size())
+// 	return nil
+// }, err error,
 
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// fmt.Println(.prettytable.?)
+// if err != nil {
+// 	fmt.Println(err)
+// }
+// fmt.Println(.prettytable.?)

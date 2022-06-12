@@ -16,7 +16,6 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="monitoring" element={<Dashboard />} />
         <Route path="disk" element={<DiskMonitor />} />
         <Route path="memory" element={<MemoryMonitor />} />
       </Routes>

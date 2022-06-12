@@ -40,7 +40,30 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.DiskResponse"
+                            "$ref": "#/definitions/disk.DiskResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/memory/": {
+            "get": {
+                "description": "Get a systems memory stats",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "memory"
+                ],
+                "summary": "Get a systems memory stats",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/memory.AllMemoryResponse"
                         }
                     }
                 }
@@ -208,11 +231,11 @@ const docTemplate = `{
                 }
             }
         },
-        "controllers.DiskResponse": {
+        "disk.DiskResponse": {
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/controllers.DiskUsage"
+                    "$ref": "#/definitions/disk.DiskUsage"
                 },
                 "error": {
                     "type": "boolean"
@@ -222,7 +245,7 @@ const docTemplate = `{
                 }
             }
         },
-        "controllers.DiskUsage": {
+        "disk.DiskUsage": {
             "type": "object",
             "properties": {
                 "free": {
@@ -233,6 +256,85 @@ const docTemplate = `{
                 },
                 "path": {
                     "type": "string"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "used": {
+                    "type": "integer"
+                },
+                "usedPercent": {
+                    "type": "number"
+                }
+            }
+        },
+        "memory.AllMemoryResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/memory.MemoryStats"
+                },
+                "error": {
+                    "type": "boolean"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "memory.MemoryStats": {
+            "type": "object",
+            "properties": {
+                "swapDevices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/memory.SwapDevice"
+                    }
+                },
+                "swapMemory": {
+                    "$ref": "#/definitions/memory.SwapMemory"
+                },
+                "virtualMemory": {
+                    "$ref": "#/definitions/memory.VirtualMemory"
+                }
+            }
+        },
+        "memory.SwapDevice": {
+            "type": "object",
+            "properties": {
+                "freeBytes": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "usedBytes": {
+                    "type": "integer"
+                }
+            }
+        },
+        "memory.SwapMemory": {
+            "type": "object",
+            "properties": {
+                "free": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "used": {
+                    "type": "integer"
+                },
+                "usedPercent": {
+                    "type": "number"
+                }
+            }
+        },
+        "memory.VirtualMemory": {
+            "type": "object",
+            "properties": {
+                "available": {
+                    "type": "integer"
                 },
                 "total": {
                     "type": "integer"

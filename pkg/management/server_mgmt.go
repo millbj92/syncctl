@@ -36,7 +36,6 @@ func StartServer(a *fiber.App, host string, port int) {
 
 	<-exit
 }
-
 func BuildFiberURL(host string, port int) string {
 	return fmt.Sprintf("%s:%d", host, port)
 }
